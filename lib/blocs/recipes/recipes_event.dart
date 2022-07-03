@@ -6,3 +6,10 @@ abstract class RecipesEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class RecipesFetchRequested extends RecipesEvent {
+  const RecipesFetchRequested();
+
+  @override
+  List<Object> get props => [];
+}

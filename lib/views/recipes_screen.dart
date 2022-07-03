@@ -1,41 +1,59 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_recettes/blocs/recipes/recipes_bloc.dart';
+import 'package:flutter_recettes/data/repositories/recipes_repository.dart';
 
-
-
-class RecipesPage extends StatelessWidget {
-  final List<ListItem> items = List<ListItem>.generate(
-      1000,
-      (i) => i % 6 == 0
-          ? HeadingItem('Heading $i')
-          : MessageItem('Sender $i', 'Message body $i'));
-
-  RecipesPage({super.key});
+class RecipesScreen extends StatelessWidget {
+  const RecipesScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    const title = 'Mixed List';
-
-    return MaterialApp(
-      title: title,
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
-          title: const Text(title),
+          title: const Text("Mes recettes"),
+          elevation: 1,
         ),
-        body: ListView.builder(
-          // Let the ListView know how many items it needs to build.
-          itemCount: items.length,
-          // Provide a builder function. This is where the magic happens.
-          // Convert each item into a widget based on the type of item it is.
-          itemBuilder: (context, index) {
-            final item = items[index];
-
-            return ListTile(
-              title: item.buildTitle(context),
-              subtitle: item.buildSubtitle(context),
-            );
+        body: BlocProvider<RecipesBloc>(create: (context) {
+          return RecipesBloc(
+            recipesRepository:
+                RepositoryProvider.of<RecipesRepository>(context),
+          );
+        }, child: Builder(
+          builder: (context) {
+            BlocProvider.of<RecipesBloc>(context)
+                .add(const RecipesFetchRequested());
+            return const RecipesScreenView();
           },
-        ),
-      ),
+        )));
+  }
+}
+
+class RecipesScreenView extends StatelessWidget {
+  const RecipesScreenView({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RecipesBloc, RecipesState>(
+      builder: (context, state) {
+        print(state);
+        if (state is RecipesLoadSuccess) {
+          return ListView.builder(
+            itemCount: state.recipes.length,
+            itemBuilder: (context, index) {
+              final recipe = state.recipes[index];
+              return ListTile(
+                title: Text(recipe.title),
+              );
+            },
+          );
+        } else if (state is RecipesLoadFailure) {
+          return const Center(
+            child: Text("Error"),
+          );
+        } else {
+          return const Center(child: CircularProgressIndicator());
+        }
+      },
     );
   }
 }

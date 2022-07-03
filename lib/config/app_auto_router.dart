@@ -8,7 +8,7 @@ import 'package:flutter_recettes/views/recipes_screen.dart';
   routes: [
     CustomRoute(
       path: '/recettes',
-      page: RecipesPage,
+      page: RecipesScreen,
       transitionsBuilder: TransitionsBuilders.fadeIn,
       guards: [MobileGuard],
     ),

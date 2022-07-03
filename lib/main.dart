@@ -1,8 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_recettes/data/repositories/recipes_repository.dart';
 import 'package:flutter_recettes/views/recipes_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  // Init Settings repository
+  RecipesRepository recipesRepository = RecipesRepository();
+
+  runApp(
+    MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider.value(value: recipesRepository),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -14,11 +26,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-
         primarySwatch: Colors.blue,
       ),
-      home: RecipesPage(),
+      home: RecipesScreen(),
     );
   }
 }
-

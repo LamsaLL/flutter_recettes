@@ -27,12 +27,10 @@ class AppAutoRouter extends _i3.RootStackRouter {
 
   @override
   final Map<String, _i3.PageFactory> pagesMap = {
-    RecipesRoute.name: (routeData) {
-      final args = routeData.argsAs<RecipesRouteArgs>(
-          orElse: () => const RecipesRouteArgs());
+    RecipesScreen.name: (routeData) {
       return _i3.CustomPage<dynamic>(
           routeData: routeData,
-          child: _i1.RecipesPage(key: args.key),
+          child: const _i1.RecipesScreen(),
           transitionsBuilder: _i3.TransitionsBuilders.fadeIn,
           opaque: true,
           barrierDismissible: false);
@@ -49,31 +47,18 @@ class AppAutoRouter extends _i3.RootStackRouter {
 
   @override
   List<_i3.RouteConfig> get routes => [
-        _i3.RouteConfig(RecipesRoute.name,
+        _i3.RouteConfig(RecipesScreen.name,
             path: '/recettes', guards: [mobileGuard]),
         _i3.RouteConfig(UnknownRoute.name, path: '*')
       ];
 }
 
 /// generated route for
-/// [_i1.RecipesPage]
-class RecipesRoute extends _i3.PageRouteInfo<RecipesRouteArgs> {
-  RecipesRoute({_i4.Key? key})
-      : super(RecipesRoute.name,
-            path: '/recettes', args: RecipesRouteArgs(key: key));
+/// [_i1.RecipesScreen]
+class RecipesScreen extends _i3.PageRouteInfo<void> {
+  const RecipesScreen() : super(RecipesScreen.name, path: '/recettes');
 
-  static const String name = 'RecipesRoute';
-}
-
-class RecipesRouteArgs {
-  const RecipesRouteArgs({this.key});
-
-  final _i4.Key? key;
-
-  @override
-  String toString() {
-    return 'RecipesRouteArgs{key: $key}';
-  }
+  static const String name = 'RecipesScreen';
 }
 
 /// generated route for

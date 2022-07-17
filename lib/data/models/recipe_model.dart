@@ -19,6 +19,8 @@ class Recipe extends Equatable {
 
   factory Recipe.fromJson(Map<String, dynamic> json) => _$RecipeFromJson(json);
 
+  Map<String, dynamic> toJson() => _$RecipeToJson(this);
+
   @override
   List<Object> get props => [id, title, imageUrl, ingredients];
 }

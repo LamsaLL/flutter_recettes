@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_recettes/data/models/recipe_model.dart';
 import 'package:flutter_recettes/data/repositories/recipes_repository.dart';
+import 'package:logger/logger.dart';
 
 part 'recipe_event.dart';
 part 'recipe_state.dart';
@@ -25,7 +26,9 @@ class RecipeBloc extends Bloc<RecipeEvent, RecipeState> {
         recipe: recipe,
       ));
     } catch (error) {
-      emit(RecipeLoadFailure());
+      emit(
+          const RecipeLoadFailure(message: "Impossible de charger la recette"));
+      Logger().e("Error: $error");
     }
   }
 
@@ -35,9 +38,12 @@ class RecipeBloc extends Bloc<RecipeEvent, RecipeState> {
       await _recipesRepository.delete(
         event.id,
       );
-      emit(const RecipeDeleteSuccess());
+      emit(RecipeDeleteSuccess(
+          message: "La recette ${event.id} a été supprimée avec succès"));
     } catch (error) {
-      emit(const RecipeDeleteFailure());
+      emit(const RecipeDeleteFailure(
+          message: "Impossible de supprimer la recette"));
+      Logger().e("Error: $error");
     }
   }
 }

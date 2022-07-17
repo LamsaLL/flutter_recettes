@@ -18,4 +18,10 @@ class RecipesLoadSuccess extends RecipesState {
   List<Object> get props => [recipes];
 }
 
-class RecipesLoadFailure extends RecipesState {}
+class RecipesLoadFailure extends RecipesState {
+  final String message;
+  const RecipesLoadFailure({required this.message});
+
+  @override
+  List<Object> get props => [];
+}

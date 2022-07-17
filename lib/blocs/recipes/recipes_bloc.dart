@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_recettes/data/models/recipe_model.dart';
 import 'package:flutter_recettes/data/repositories/recipes_repository.dart';
+import 'package:logger/logger.dart';
 
 part 'recipes_event.dart';
 part 'recipes_state.dart';
@@ -23,7 +24,9 @@ class RecipesBloc extends Bloc<RecipesEvent, RecipesState> {
         recipes: recipes,
       ));
     } catch (error) {
-      emit(RecipesLoadFailure());
+      emit(const RecipesLoadFailure(
+          message: "Impossible de charger les recettes"));
+      Logger().e("Error: $error");
     }
   }
 }

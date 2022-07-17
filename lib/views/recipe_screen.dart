@@ -40,10 +40,22 @@ class RecipeScreenView extends StatelessWidget {
     return BlocConsumer<RecipeBloc, RecipeState>(
       listener: (context, state) {
         if (state is RecipeDeleteSuccess) {
-          print("lolllllllllllllllllllllllllllllllllllllllllllllllllllll");
           context.read<RecipesBloc>().add(const RecipesFetchRequested());
           Navigator.of(context).popUntil(
             (route) => route.isFirst,
+          );
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.green,
+              content: Text(state.message),
+            ),
+          );
+        } else if (state is RecipeDeleteFailure) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.red,
+              content: Text(state.message),
+            ),
           );
         }
       },
@@ -54,14 +66,8 @@ class RecipeScreenView extends StatelessWidget {
               // add delete icon here
               IconButton(
                 icon: const Icon(Icons.delete),
-                onPressed: () {
-                  // show confirmation dialog
-                  // return BlocProvider.value(
-                  //       value: BlocProvider.of<RecipeBloc>(context),
-                  //       child: ConfirmDialog(),
-                  //     )
-
-                  showDialog(
+                onPressed: () async {
+                  await showDialog(
                       context: context,
                       builder: (_) {
                         return BlocProvider.value(
@@ -101,8 +107,8 @@ class RecipeScreenView extends StatelessWidget {
             ],
           );
         } else if (state is RecipeLoadFailure) {
-          return const Center(
-            child: Text("Error"),
+          return Center(
+            child: Text(state.message),
           );
         } else {
           return const Center(child: CircularProgressIndicator());

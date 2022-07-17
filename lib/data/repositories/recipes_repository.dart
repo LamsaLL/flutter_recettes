@@ -15,7 +15,7 @@ Future<String> getFilePath(String fileName) async {
     String filePath = '$appDocumentsPath/$fileName'; // 3
     return filePath;
   } catch (e) {
-    print(e);
+    Logger().e("Error: $e");
   }
   return 'not found';
 }
@@ -26,11 +26,10 @@ class RecipesRepository {
   Future loadInitialData() async {
     try {
       String jsonString = await rootBundle.loadString('assets/recipes.json');
-      Logger().wtf('Init Datas: $jsonString');
       String filePath = await getFilePath('recipes.json');
       await File(filePath).writeAsString(jsonString);
     } catch (e) {
-      print(e);
+      Logger().e("Error : $e");
     }
   }
 
@@ -38,15 +37,12 @@ class RecipesRepository {
     final path = await getFilePath('recipes.json');
     final File file = File(path);
     final String recipesJson = await file.readAsString();
-    var logger = Logger();
-    logger.wtf("Get all ${await file.readAsString()}");
 
     final data = await json.decode(recipesJson);
     final List<Recipe> recipes =
         List<Recipe>.from(data['recipes'].map((recipe) {
       return Recipe.fromJson(recipe);
     }));
-    // print content of file
     return recipes;
   }
 
@@ -81,7 +77,7 @@ class RecipesRepository {
       });
       await file.writeAsString(newRecipesJson);
     } catch (e) {
-      print(e);
+      Logger().e("Error : $e");
     }
   }
 }

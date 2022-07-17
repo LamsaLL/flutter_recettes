@@ -19,17 +19,25 @@ class RecipeLoadSuccess extends RecipeState {
 }
 
 class RecipeDeleteSuccess extends RecipeState {
-  const RecipeDeleteSuccess();
+  final String message;
+  const RecipeDeleteSuccess({required this.message});
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [message];
 }
 
 class RecipeDeleteFailure extends RecipeState {
-  const RecipeDeleteFailure();
+  final String message;
+  const RecipeDeleteFailure({required this.message});
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [message];
 }
 
-class RecipeLoadFailure extends RecipeState {}
+class RecipeLoadFailure extends RecipeState {
+  final String message;
+  const RecipeLoadFailure({required this.message});
+
+  @override
+  List<Object> get props => [message];
+}

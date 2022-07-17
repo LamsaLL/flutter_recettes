@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_recettes/blocs/recipes/recipes_bloc.dart';
-import 'package:flutter_recettes/data/repositories/recipes_repository.dart';
 import 'package:flutter_recettes/views/recipe_screen.dart';
 
 class RecipesScreen extends StatelessWidget {
@@ -32,9 +31,7 @@ class RecipesScreenView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<RecipesBloc, RecipesState>(
       builder: (context, state) {
-        print(state);
         if (state is RecipesLoadSuccess) {
-          print("lollllllll");
           return ListView.builder(
             itemCount: state.recipes.length,
             itemBuilder: (context, index) {
@@ -45,8 +42,6 @@ class RecipesScreenView extends StatelessWidget {
                 ),
                 title: Text(recipe.title),
                 onTap: () {
-                  // Navigator.push(context, CupertinoPageRoute(builder: (ctx) => BlocProvider.value(value: context.read<BlocC>()), child: ChildC());
-
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => RecipeScreen(
@@ -59,8 +54,8 @@ class RecipesScreenView extends StatelessWidget {
             },
           );
         } else if (state is RecipesLoadFailure) {
-          return const Center(
-            child: Text("Error"),
+          return Center(
+            child: Text(state.message),
           );
         } else {
           return const Center(child: CircularProgressIndicator());

@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_recettes/blocs/recipe/recipe_bloc.dart';
 import 'package:flutter_recettes/blocs/recipes/recipes_bloc.dart';
-import 'package:flutter_recettes/config/app_auto_router.gr.dart';
 import 'package:flutter_recettes/data/repositories/recipes_repository.dart';
-import 'package:flutter_recettes/views/recipes_screen.dart';
 
 class RecipeScreen extends StatelessWidget {
   final String id;
